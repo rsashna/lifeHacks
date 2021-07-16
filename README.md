@@ -1,3 +1,3 @@
 # lifeHacks
 
-A dump for scripts to win at life :)
+Just some CLI apps to make my life a little easier :)
