@@ -1,4 +1,5 @@
 import os, glob, subprocess
+import pandas as pd
 
 """
 PROCESS
@@ -43,8 +44,11 @@ FutureCase-Log file to track?
 
 
 print("program started\n\n")
+
+fileFormat = pd.read_csv('./fileFormatter.csv')
+
 # Works ---v---
-os.system("ls")
+# os.system("ls")
 
 # Works --v-- lists header info
 # subprocess.run(["ls", "-l"])
@@ -59,6 +63,29 @@ os.system("ls")
 
 # move to trash
 # ~/.Trash/
+[ffrows,ffcols] = fileFormat.shape
+print('rows ' , ffrows)
+print('cols ',ffcols)
+print(fileFormat.iloc[0,2])
+print(fileFormat.iloc[2,0])
+print("NEXT")
 
+
+# TODO: for each line in csv,
+for i in range(0,ffrows):
+    folderToSend = fileFormat.iloc[i,2]
+    if (glob.glob(folderToSend)==[]):
+        print('ITS EMPTY')
+        command = 'mkdir ' + folderToSend
+        print('command:',command)
+        os.system(command)
+    print(glob.glob(fileFormat.iloc[i,2]))
+
+
+
+
+# TODO: if doesnt exist, create folderName
+# TODO: if pattern exists, list pattern.filetype > fileMoverAr
+# TODO: ask to rename **Might move this to process end
 
 print("program ended\n\n")

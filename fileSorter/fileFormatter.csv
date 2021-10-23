@@ -1,0 +1,4 @@
+FileType,Pattern,FolderName,SpecialINST,Notes
+png,'Screen Shot*',screenshotsToMove,,
+png,,imgsToMove,,
+pdf,,docsToMove,,
