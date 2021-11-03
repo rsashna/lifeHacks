@@ -81,7 +81,7 @@ for i in range(0,ffrows):
         print(folderToSend)
         os.system(command)
 
-    # else:
+    #else:
         # dont make a folder
 
     typeOfFile = fileFormat.iloc[i,0]
@@ -91,7 +91,7 @@ for i in range(0,ffrows):
     if (fileFormat.iloc[i,1]=='x'):
         print('found one')
         print(fileFormat.iloc[i,1])
-        command = 'mv *.' + fileFormat.iloc[i,0] + ' ./' + folderToSend
+        command = 'mv *.' + fileFormat.iloc[i,1] + './' + folderToSend
         print(command)
 
     # print(glob.glob(fileFormat.iloc[i,2]))
