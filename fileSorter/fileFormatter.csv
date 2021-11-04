@@ -1,5 +1,5 @@
 FileType,Pattern,FolderName,SpecialINST,Notes
-x,'Screen Shot*',screenshotsToMove,,
+x,Screen Shot*,screenshotsToMove,,
 jpg,x,imgsToMove,,
 jpeg,x,imgsToMove,,
 pdf,x,docsToMove,,

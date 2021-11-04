@@ -1,6 +1,7 @@
 import os, glob, subprocess
 import pandas as pd
 import numpy as np
+import time
 
 """
 PROCESS
@@ -46,6 +47,9 @@ FutureCase-Log file to track?
 
 print("program started\n\n")
 
+t = time.time()
+
+
 fileFormat = pd.read_csv('./fileFormatter.csv')
 
 # Works ---v---
@@ -65,41 +69,57 @@ fileFormat = pd.read_csv('./fileFormatter.csv')
 # move to trash
 # ~/.Trash/
 [ffrows,ffcols] = fileFormat.shape
-print('rows ' , ffrows)
-print('cols ',ffcols)
-print(fileFormat.iloc[0,2])
-print(fileFormat.iloc[2,0])
-print("NEXT")
+# TODEL test below:
+# [ffrows,ffcols] = fileFormat.shape
+# print('rows ' , ffrows)
+# print('cols ',ffcols)
+# print(fileFormat.iloc[0,2])
+# print(fileFormat.iloc[2,0])
+# print("NEXT")
 
 
 # for each line in csv, if doesnt exist, create folderName
 for i in range(0,ffrows):
+    typeOfFile = fileFormat.iloc[i,0]
+    pattern = fileFormat.iloc[i,1]
     folderToSend = fileFormat.iloc[i,2]
+
+    # TODEL check read_csv
+    print('typeOfFile pattern folderToSend\n', typeOfFile, pattern, folderToSend)
+
+
     if (glob.glob(folderToSend)==[]):
-        print('--CREATING FOLDER')
+        print('\n--CREATING FOLDER')
         command = 'mkdir ' + folderToSend
         print(folderToSend)
         os.system(command)
 
-    #else:
+    # else:
         # dont make a folder
 
-    typeOfFile = fileFormat.iloc[i,0]
-    print(typeOfFile)
-    print('check if nan')
-    print(fileFormat.iloc[i,1])
-    if (fileFormat.iloc[i,1]=='x'):
-        print('found one')
-        print(fileFormat.iloc[i,1])
-        command = 'mv *.' + fileFormat.iloc[i,1] + './' + folderToSend
+    # move that file
+
+    # TODEL check if no pattern
+    # print(typeOfFile)
+    # print('check if nan')
+
+
+    if (pattern=='x'):
+        command = ('mv *.' + typeOfFile  + ' ./' + folderToSend)
         print(command)
 
-    # print(glob.glob(fileFormat.iloc[i,2]))
+    else:
+        command = ('mv ' + pattern  + ' ./' + folderToSend)
+        print('CHECK')
+        print(command)
+        # good to go for both^
+        # os.system(command)
 
 
 
-
-# TODO: if pattern exists, list pattern.filetype > fileMoverAr
+# TODO: if pattern exists, list pattern.filetype > fileMoverAr ---DONE, just need to cleanup/uncomment
+# TODO: make formatter files hidden
 # TODO: ask to rename **Might move this to process end
 
-print("\n\n\nprogram ended\n\n")
+elapsed = time.time() - t
+print("\n\n\n" + str(elapsed) + "s\nprogram ended\n\n")
