@@ -49,8 +49,8 @@ print("program started\n\n")
 
 t = time.time()
 
-
 fileFormat = pd.read_csv('./fileFormatter.csv')
+renamer = []
 
 # Works ---v---
 # os.system("ls")
@@ -78,11 +78,18 @@ fileFormat = pd.read_csv('./fileFormatter.csv')
 # print("NEXT")
 
 
-# for each line in csv, if doesnt exist, create folderName
+# for each line in csv, if folder doesnt exist, create folder
 for i in range(0,ffrows):
     typeOfFile = fileFormat.iloc[i,0]
     pattern = fileFormat.iloc[i,1]
     folderToSend = fileFormat.iloc[i,2]
+    toRename = fileFormat.iloc[i,3]
+    print(toRename)
+    if(toRename=='y'):
+        renamer.append(folderToSend)
+        # pd.concat([renamer,folderToSend])
+        # print(renamer.dtype)
+        # print(folderToSend.dtype)
 
     # TODEL check read_csv
     print('typeOfFile pattern folderToSend\n', typeOfFile, pattern, folderToSend)
@@ -115,10 +122,12 @@ for i in range(0,ffrows):
         # good to go for both^
         # os.system(command)
 
-
+# itterate through renamer, show img, ask to rename contents
+renamer=list(set(renamer))
+print(renamer)
 
 # TODO: if pattern exists, list pattern.filetype > fileMoverAr ---DONE, just need to cleanup/uncomment
-# TODO: make formatter files hidden
+# TODO: make formatter files hidden --LAST STEP
 # TODO: ask to rename **Might move this to process end
 
 elapsed = time.time() - t

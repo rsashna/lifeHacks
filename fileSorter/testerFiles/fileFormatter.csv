@@ -1,6 +1,6 @@
-FileType,Pattern,FolderName,SpecialINST,Rename
-x,Screen\ Shot*,screenshotsToMove,,y
-jpg,x,imgsToMove,,y
-jpeg,x,imgsToMove,,y
-pdf,x,docsToMove,,y
-x,export,csvExports,,n
+FileType,Pattern,FolderName,Rename,SpecialINST
+x,Screen\ Shot*,screenshotsToMove,y,
+jpg,x,imgsToMove,y,
+jpeg,x,imgsToMove,y,
+pdf,x,docsToMove,y,
+x,export,csvExports,n,
