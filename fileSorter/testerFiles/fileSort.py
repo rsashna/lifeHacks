@@ -1,6 +1,12 @@
 import os, glob, subprocess
 import pandas as pd
 import numpy as np
+# TODEL 1
+from PIL import Image
+
+# import matplotlib.pyplot as plt
+import cv2
+
 import time
 
 """
@@ -122,13 +128,61 @@ for i in range(0,ffrows):
         # good to go for both^
         # os.system(command)
 
-# itterate through renamer, show img, ask to rename contents
+# itterate through renamer, ask to rename contents of i folder, if y
+# go inside dir, take list into array, intterate through list, ask to rename, if y show img
 renamer=list(set(renamer))
-print(renamer)
+# TODEL 1
+print("\n\n renamer list:" , renamer)
+
+for i in range (0,len(renamer)):
+    print("\nRename files from " , renamer[i], "? [y/n]")
+    agreeRe = input("")
+    if (agreeRe=="y"):
+        cwd = os.getcwd()
+        command = (cwd + '/' + renamer[i] + '/')
+        # print(command , "now go inside folder")
+        # TODEL 1
+        print("Going into" + os.getcwd())
+        os.chdir(command)
+        # TODEL 3
+        # print('listing cont: ')
+        # command = ('ls -a')
+        # os.system(command)
+        fileList = os.listdir(path='.')
+        # print("FILE LIST" , fileList)
+        for i in range (0,len(fileList)):
+            print("\nShow " , fileList[i], "? [y/n]")
+            agreeSh = input("")
+            if (agreeRe=="y"):
+                img=cv2.imread(fileList[i])
+                # must focus on new img window and press any key to close img
+                if img is None:
+                    sys.exit("Could not read the image.")
+
+                cv2.imshow("Rename this file", img)
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
+                cv2.waitKey(1)
+                #wait for end key q
+
+                    # cv2.destroyAllWindows()
+                    # break
+
+                # img=Image.open(fileList[i])
+                # img.show()
+                # ^this works but closing the preview window defaults focus to non-terminal app
+                
+                # plt.figure()
+                # plt.imshow(fileList[i])
+                # plt.show()
+                # ^DONT USE
+
+
+
 
 # TODO: if pattern exists, list pattern.filetype > fileMoverAr ---DONE, just need to cleanup/uncomment
 # TODO: make formatter files hidden --LAST STEP
 # TODO: ask to rename **Might move this to process end
-
+cv2.destroyAllWindows()
 elapsed = time.time() - t
 print("\n\n\n" + str(elapsed) + "s\nprogram ended\n\n")
