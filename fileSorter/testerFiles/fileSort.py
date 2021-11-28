@@ -31,6 +31,10 @@ scan in hidden file formater from same location (.fileformatter.txt)
 | zips           | --               | zipsToMove    | FIRST check if folder exists with same name, if so, send to trashAfterSort/   |    |
 | csv            | 'export*'        | exportCSVs    | --                             | --       |
 | mov            |--                | screenRecs    |                                |          |
+| xlsx           |--                | excelSheets    |                                |          |
+| dmg           |--                | dontNeedButKeep    |                                |          |
+| ics           |--                | --                 |                                |          |
+| ~           |--                | --                 |                                |  delete these files        |
 
 
 Location Use Cases
@@ -54,7 +58,7 @@ FutureCase-Log file to track?
 print("program started\n\n")
 
 t = time.time()
-
+gohome = 'n'
 fileFormat = pd.read_csv('./fileFormatter.csv')
 renamer = []
 
@@ -90,7 +94,7 @@ for i in range(0,ffrows):
     pattern = fileFormat.iloc[i,1]
     folderToSend = fileFormat.iloc[i,2]
     toRename = fileFormat.iloc[i,3]
-    print(toRename)
+    # print(toRename)
     if(toRename=='y'):
         renamer.append(folderToSend)
         # pd.concat([renamer,folderToSend])
@@ -98,7 +102,7 @@ for i in range(0,ffrows):
         # print(folderToSend.dtype)
 
     # TODEL check read_csv
-    print('typeOfFile pattern folderToSend\n', typeOfFile, pattern, folderToSend)
+    # print('typeOfFile pattern folderToSend\n', typeOfFile, pattern, folderToSend)
 
 
     if (glob.glob(folderToSend)==[]):
@@ -116,34 +120,38 @@ for i in range(0,ffrows):
     # print(typeOfFile)
     # print('check if nan')
 
-
+    # BUG not working
     if (pattern=='x'):
         command = ('mv *.' + typeOfFile  + ' ./' + folderToSend)
-        print(command)
+        # print(command)
 
     else:
         command = ('mv ' + pattern  + ' ./' + folderToSend)
-        print('CHECK')
-        print(command)
-        # good to go for both^
-        # os.system(command)
+        # print('CHECK')
+        # print(command)
+        # good to go for else
+    os.system(command)
 
 # itterate through renamer, ask to rename contents of i folder, if y
 # go inside dir, take list into array, intterate through list, ask to rename, if y show img
+# TODO - check if img files present, then show img
 renamer=list(set(renamer))
 # TODEL 1
 print("\n\n renamer list:" , renamer)
 
 for i in range (0,len(renamer)):
     print("\nRename files from " , renamer[i], "? [y/n]")
+    if(gohome == 'y'):
+        os.chdir('..')
     agreeRe = input("")
     if (agreeRe=="y"):
         cwd = os.getcwd()
         command = (cwd + '/' + renamer[i] + '/')
         # print(command , "now go inside folder")
         # TODEL 1
-        print("Going into" + os.getcwd())
+        print("Going into" + command)
         os.chdir(command)
+        gohome = 'y'
         # TODEL 3
         # print('listing cont: ')
         # command = ('ls -a')
@@ -153,7 +161,7 @@ for i in range (0,len(renamer)):
         for i in range (0,len(fileList)):
             print("\nShow " , fileList[i], "? [y/n]")
             agreeSh = input("")
-            if (agreeRe=="y"):
+            if (agreeSh=="y"):
                 img=cv2.imread(fileList[i])
                 # must focus on new img window and press any key to close img
                 if img is None:
@@ -163,19 +171,17 @@ for i in range (0,len(renamer)):
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
                 cv2.waitKey(1)
-                #wait for end key q
+            # else:
+                # dont show it
+            print("\nRename " , fileList[i], "? [y/n]")
+            agreeReFile = input("")
+            if (agreeReFile=="y"):
+                print("\nENTER NEW NAME FOR " , fileList[i], ":")
+                orgName, fExt = os.path.splitext(fileList[i])
+                newName = input("")
+                newName = newName + fExt
+                os.rename(fileList[i],newName)
 
-                    # cv2.destroyAllWindows()
-                    # break
-
-                # img=Image.open(fileList[i])
-                # img.show()
-                # ^this works but closing the preview window defaults focus to non-terminal app
-                
-                # plt.figure()
-                # plt.imshow(fileList[i])
-                # plt.show()
-                # ^DONT USE
 
 
 
