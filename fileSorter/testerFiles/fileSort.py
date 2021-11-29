@@ -15,11 +15,13 @@ PROCESS
 scan in hidden file formater from same location (.fileformatter.txt)
     extract file structure (1)
 
--for each file, sort into folder
--ask to rename screenshots
+-from the formatter create folders if they dont exist
+-batch sort into folder using pattern or fileType
+-ask to rename or delete file
     -if y
-    -for each ss,
-        -show file, ask for name
+    -for each file,
+        -ask to show file
+        -ask to rename
         -rename
 
 
@@ -44,7 +46,8 @@ Location Use Cases
 
 Feature-count the number of screen shots before move?
 FutureCase-ask to move to common locations?
-FutureCase-Log file to track?
+
+***FutureCase-Log file to track?
     -datestamp
     -ls -p > .fileSorterLog.txt
     --sort--
@@ -173,7 +176,7 @@ for i in range (0,len(renamer)):
                 cv2.waitKey(1)
             # else:
                 # dont show it
-            print("\nRename " , fileList[i], "? [y/n]")
+            print("\nRename or Delete" , fileList[i], "? [y/n/d]")
             agreeReFile = input("")
             if (agreeReFile=="y"):
                 print("\nENTER NEW NAME FOR " , fileList[i], ":")
@@ -181,6 +184,9 @@ for i in range (0,len(renamer)):
                 newName = input("")
                 newName = newName + fExt
                 os.rename(fileList[i],newName)
+            elif (agreeReFile=="d"):
+                print("\nMoving " , fileList[i], " to Trash.")
+                command = ('mv ' + fileList[i] + ' ~/.Trash/')
 
 
 
