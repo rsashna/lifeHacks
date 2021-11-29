@@ -4,3 +4,4 @@ jpg,x,imgsToMove,y,
 jpeg,x,imgsToMove,y,
 pdf,x,docsToMove,y,
 x,export*,csvExports,n,
+zip,z,z,y,openFinder

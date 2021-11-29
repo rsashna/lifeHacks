@@ -17,12 +17,15 @@ scan in hidden file formater from same location (.fileformatter.txt)
 
 -from the formatter create folders if they dont exist
 -batch sort into folder using pattern or fileType
--ask to rename or delete file
-    -if y
-    -for each file,
-        -ask to show file
-        -ask to rename
-        -rename
+    -ask to rename or delete file
+        -if y
+        -for each file,
+            -ask to show file
+            -ask to rename
+            -rename
+-for zip files, look for duplicate named folder
+    -if duplicate, delete zip
+    -ask to rename folder
 
 
 (1) General FILE FORMATTER (.fileformatter.txt)
@@ -106,7 +109,8 @@ for i in range(0,ffrows):
 
     # TODEL check read_csv
     # print('typeOfFile pattern folderToSend\n', typeOfFile, pattern, folderToSend)
-
+    # BUG - Some error message printing out... related to glob?
+    print("AH HA")
 
     if (glob.glob(folderToSend)==[]):
         print('\n--CREATING FOLDER')
@@ -128,12 +132,30 @@ for i in range(0,ffrows):
         command = ('mv *.' + typeOfFile  + ' ./' + folderToSend)
         # print(command)
 
-    else:
+    elif (pattern!='z'):
         command = ('mv ' + pattern  + ' ./' + folderToSend)
         # print('CHECK')
         # print(command)
         # good to go for else
     os.system(command)
+
+
+    # zip file handling
+    # look for all zips
+    # -for zip files, look for duplicate named folder
+    #     -if duplicate, delete zip
+    #     -ask to rename folder
+    if( pattern =='z'):
+        # pattern z indicates no pattern and check for dupes
+        allZips=glob.glob('*.zip')
+        # TODEL 2
+        # print(allZips)
+        # print("CHECK - QUIT PROG")
+        for z in range(0,len(allZips)):
+            zipName, zExt = os.path.splitext(allZips[z])
+            zipFolder=zipName + '/'
+            if (glob.glob(zipFolder)!=[]):
+                print("Found a folder and zip named" , zipName)
 
 # itterate through renamer, ask to rename contents of i folder, if y
 # go inside dir, take list into array, intterate through list, ask to rename, if y show img
