@@ -2,7 +2,7 @@ import os, glob, subprocess
 import pandas as pd
 import numpy as np
 # TODEL 1
-from PIL import Image
+# from PIL import Image
 
 # import matplotlib.pyplot as plt
 import cv2
@@ -186,7 +186,14 @@ for i in range (0,len(renamer)):
         for i in range (0,len(fileList)):
             print("\nShow " , fileList[i], "? [y/n]")
             agreeSh = input("")
-            if (agreeSh=="y"):
+            orgName, fExt = os.path.splitext(fileList[i])
+            isImg = 0
+            # check if img
+            if (fExt=="png" or fExt=="jpg" or fExt=="jpeg" or fExt=="tiff" or fExt=="gif")
+                isImg = 1
+
+            # img clause
+            if (agreeSh=="y" and isImg==1):
                 img=cv2.imread(fileList[i])
                 # must focus on new img window and press any key to close img
                 if img is None:
@@ -196,13 +203,22 @@ for i in range (0,len(renamer)):
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
                 cv2.waitKey(1)
-            # else:
+            elif(agreeSh=="y" and fExt=="pdf"):
+                # img=cv2.imread(fileList[i])
+                # # must focus on new img window and press any key to close img
+                # if img is None:
+                #     sys.exit("Could not read the image.")
+                #
+                # cv2.imshow("Rename this file", img)
+                # cv2.waitKey(0)
+                # cv2.destroyAllWindows()
+                # cv2.waitKey(1)
                 # dont show it
             print("\nRename or Delete" , fileList[i], "? [y/n/d]")
             agreeReFile = input("")
             if (agreeReFile=="y"):
                 print("\nENTER NEW NAME FOR " , fileList[i], ":")
-                orgName, fExt = os.path.splitext(fileList[i])
+
                 newName = input("")
                 newName = newName + fExt
                 os.rename(fileList[i],newName)
