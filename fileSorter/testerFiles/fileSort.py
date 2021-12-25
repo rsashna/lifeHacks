@@ -14,10 +14,10 @@ Summary of working parts
 -rename works
 -file move works
 -move back to current location
+-patched: new show file command loop (doesnt reach)
 
 
 Not working
--new show file command loop (doesnt reach)
 -ah ha bug, printing of movement folder when already exists?
 -zips
     -folder named z??? --> zips?
@@ -205,44 +205,21 @@ for i in range (0,len(renamer)):
             fExt=fExt.lower()
             mediaType = 0
             # check if img 1, doc 2, vid 3, aud 4
-            if (fExt=="png" or fExt=="jpg" or fExt=="jpeg" or fExt=="tiff" or fExt=="gif" or fExt=="heic" ):
+            if (fExt==".png" or fExt==".jpg" or fExt==".jpeg" or fExt==".tiff" or fExt==".gif" or fExt==".heic" ):
                 mediaType = 1
-            elif(fExt=="pdf" or fExt=="docx"):
+            elif(fExt==".pdf" or fExt==".docx"):
                 mediaType = 2
-            elif(fExt=="mov" or fExt=="mp4"):
+            elif(fExt==".mov" or fExt==".mp4"):
                 mediaType = 3
-            elif(fExt=="wav" or fExt=="m4a"):
+            elif(fExt==".wav" or fExt==".m4a"):
                 mediaType = 4
 
             # should handle all accepted file types
             if (agreeSh=="y" and mediaType!=0):
                 command = ('open -R ' + fileList[i])
-                print("going to open in finder")
-                print(command)
-
-                # os.system(command)
-                ''' found better method ^
-                img=cv2.imread(fileList[i])
-                # must focus on new img window and press any key to close img
-                if img is None:
-                    sys.exit("Could not read the image.")
-
-                cv2.imshow("Rename this file", img)
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
-                cv2.waitKey(1)
-                '''
-            # elif(agreeSh=="y" and mediaType==2):
-                # img=cv2.imread(fileList[i])
-                # # must focus on new img window and press any key to close img
-                # if img is None:
-                #     sys.exit("Could not read the image.")
-                #
-                # cv2.imshow("Rename this file", img)
-                # cv2.waitKey(0)
-                # cv2.destroyAllWindows()
-                # cv2.waitKey(1)
-                # dont show it
+                print("\nOpening in finder. Close window then continue here.")
+                os.system(command)
+                
             print("\nRename or Delete" , fileList[i], "? [y/n/d]")
             agreeReFile = input("")
             if (agreeReFile=="y"):
