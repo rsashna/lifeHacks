@@ -10,6 +10,21 @@ import cv2
 import time
 
 """
+Summary of working parts
+-rename works
+-file move works
+-move back to current location
+
+
+Not working
+-new show file command loop (doesnt reach)
+-ah ha bug, printing of movement folder when already exists?
+-zips
+    -folder named z??? --> zips?
+
+
+
+
 PROCESS
 
 scan in hidden file formater from same location (.fileformatter.txt)
@@ -187,13 +202,26 @@ for i in range (0,len(renamer)):
             print("\nShow " , fileList[i], "? [y/n]")
             agreeSh = input("")
             orgName, fExt = os.path.splitext(fileList[i])
-            isImg = 0
-            # check if img
-            if (fExt=="png" or fExt=="jpg" or fExt=="jpeg" or fExt=="tiff" or fExt=="gif")
-                isImg = 1
+            fExt=fExt.lower()
+            mediaType = 0
+            # check if img 1, doc 2, vid 3, aud 4
+            if (fExt=="png" or fExt=="jpg" or fExt=="jpeg" or fExt=="tiff" or fExt=="gif" or fExt=="heic" ):
+                mediaType = 1
+            elif(fExt=="pdf" or fExt=="docx"):
+                mediaType = 2
+            elif(fExt=="mov" or fExt=="mp4"):
+                mediaType = 3
+            elif(fExt=="wav" or fExt=="m4a"):
+                mediaType = 4
 
-            # img clause
-            if (agreeSh=="y" and isImg==1):
+            # should handle all accepted file types
+            if (agreeSh=="y" and mediaType!=0):
+                command = ('open -R ' + fileList[i])
+                print("going to open in finder")
+                print(command)
+
+                # os.system(command)
+                ''' found better method ^
                 img=cv2.imread(fileList[i])
                 # must focus on new img window and press any key to close img
                 if img is None:
@@ -203,7 +231,8 @@ for i in range (0,len(renamer)):
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
                 cv2.waitKey(1)
-            elif(agreeSh=="y" and fExt=="pdf"):
+                '''
+            # elif(agreeSh=="y" and mediaType==2):
                 # img=cv2.imread(fileList[i])
                 # # must focus on new img window and press any key to close img
                 # if img is None:
