@@ -1,0 +1,6 @@
+box/         screenshotsToMove/   char.gif           noper.md      sampler.txt
+csvExports/  z/                   cont.zip           noper.py      scroll.mov
+docsToMove/  SupaSmol.png         fileFormatter.csv  noper2.docx
+folderHere/  TestFoldersMade.txt  fileSort.py        painting.psd
+imgsToMove/  arrrt.kra            nope4.csv          pkg.zip
+present/     box.zip              noper.m            present.zip
