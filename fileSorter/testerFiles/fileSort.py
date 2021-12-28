@@ -13,15 +13,18 @@ import time
 Summary of working parts
 -rename works
 -file move works
+-file delete after request works
 -move back to current location
 -patched: new show file command loop (doesnt reach)
-
+-zipped file will be deleted if folder with same name exists
 
 Not working
 -ah ha bug, printing of movement folder when already exists?
 -zips
-    -folder named z??? --> zips?
-
+    -special inst?
+    -Should prog first show content before deleting???
+-random z folder being created?
+    -should zips be sent there or deleted???
 
 
 
@@ -161,7 +164,8 @@ for i in range(0,ffrows):
     #     -if duplicate, delete zip
     #     -ask to rename folder
     if( pattern =='z'):
-        # pattern z indicates no pattern and check for dupes
+        # pattern z indicates zipped file pattern
+        # zipped file will be deleted if folder with same name exists
         allZips=glob.glob('*.zip')
         # TODEL 2
         # print(allZips)
@@ -170,10 +174,12 @@ for i in range(0,ffrows):
             zipName, zExt = os.path.splitext(allZips[z])
             zipFolder=zipName + '/'
             if (glob.glob(zipFolder)!=[]):
-                print("Found a folder and zipped file named" , zipName)
-                print("Zipped file being deleted: " , zipName)
-                command = ('mv ' + zipFolder + ' ~/.Trash/')
-                # TODO run command
+                print("Found a folder and a zipped file named" , zipName)
+                print("Zip being deleted: " , zipName)
+                command = ('mv ' + allZips[z] + ' ~/.Trash/')
+                os.system(command)
+
+
 # itterate through renamer, ask to rename contents of i folder, if y
 # go inside dir, take list into array, intterate through list, ask to rename, if y show img
 # TODO - check if img files present, then show img
@@ -217,24 +223,24 @@ for i in range (0,len(renamer)):
                 mediaType = 4
 
             # should handle all accepted file types
+            # prompt and execute, files to be shown/renamed/deleted
             if (agreeSh=="y" and mediaType!=0):
                 command = ('open -R ' + fileList[i])
                 print("\nOpening in finder. Close window then continue here.")
                 os.system(command)
 
-            print("\nRename or Delete" , fileList[i], "? [y/n/d]")
-            agreeReFile = input("")
-            if (agreeReFile=="y"):
+            print("\nRename or Delete" , fileList[i], "? [r/d/n]")
+            agreeModFile = input("")
+            if (agreeModFile=="r"):
                 print("\nENTER NEW NAME FOR " , fileList[i], ":")
 
                 newName = input("")
                 newName = newName + fExt
                 os.rename(fileList[i],newName)
-            elif (agreeReFile=="d"):
+            elif (agreeModFile=="d"):
                 print("\nMoving " , fileList[i], " to Trash.")
                 command = ('mv ' + fileList[i] + ' ~/.Trash/')
-                # TODO run command
-
+                os.system(command)
 
 
 
