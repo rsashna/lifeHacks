@@ -19,13 +19,13 @@ Summary of working parts
 -zipped file will be deleted if folder with same name exists
 
 Not working
--ah ha bug, printing of movement folder when already exists?
+-ah ha bug, error print of movement folder when already exists?
 -zips
-    -special inst?
-    -Should prog first show content before deleting???
--random z folder being created?
-    -should zips be sent there or deleted???
-
+    -ask to show folder and rename folder
+-make better UI
+    -internal tasks indent, user inputs CAPS
+    -subheadings of task
+    -minimal words
 
 
 PROCESS
@@ -130,7 +130,7 @@ for i in range(0,ffrows):
     # BUG - Some error message printing out... related to glob?
     print("AH HA")
 
-    if (glob.glob(folderToSend)==[]):
+    if (glob.glob(folderToSend)==[] and folderToSend!='z'):
         print('\n--CREATING FOLDER')
         command = 'mkdir ' + folderToSend
         print(folderToSend)
