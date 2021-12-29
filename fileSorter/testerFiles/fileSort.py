@@ -1,13 +1,15 @@
 import os, glob, subprocess
 import pandas as pd
 import numpy as np
-# TODEL 1
+# TODEL 3
 # from PIL import Image
-
 # import matplotlib.pyplot as plt
-import cv2
+# import cv2
 
 import time
+
+# TODEL if doesnt work
+# exec 2> /dev/null
 
 """
 Summary of working parts
@@ -20,6 +22,7 @@ Summary of working parts
 
 Not working
 -ah ha bug, error print of movement folder when already exists?
+    -found 2 bug solutions os.system and subprocess, need to test if mv works
 -zips
     -ask to show folder and rename folder
 -make better UI
@@ -148,15 +151,33 @@ for i in range(0,ffrows):
     # BUG not working
     if (pattern=='x'):
         command = ('mv *.' + typeOfFile  + ' ./' + folderToSend)
-        # print(command)
+        print(command)
 
     elif (pattern!='z'):
         command = ('mv ' + pattern  + ' ./' + folderToSend)
-        # print('CHECK')
-        # print(command)
-        # good to go for else
-    os.system(command)
 
+        # TODEL if not working
+        command2 = ('mv ' + pattern  + ' ./' + folderToSend + '&> /dev/null')
+
+        # print('CHECK')
+        print(command)
+        # good to go for else
+# checking for AH HA (prev uncommented)
+# bug is error returned due to no remaning files left to move
+    # os.system(command)
+
+    # WORKS --V--
+    # try:
+    #     subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    # except:
+    #     print("Unknown error when moving files.")
+
+
+    try:
+      os.system(command2)
+      print("testing command2")
+    except:
+      print("Unknown error occurred")
 
     # zip file handling
     # look for all zips
@@ -247,6 +268,6 @@ for i in range (0,len(renamer)):
 # TODO: if pattern exists, list pattern.filetype > fileMoverAr ---DONE, just need to cleanup/uncomment
 # TODO: make formatter files hidden --LAST STEP
 # TODO: ask to rename **Might move this to process end
-cv2.destroyAllWindows()
+# cv2.destroyAllWindows()
 elapsed = time.time() - t
 print("\n\n\n" + str(elapsed) + "s\nprogram ended\n\n")
